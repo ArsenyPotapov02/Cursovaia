@@ -1,6 +1,6 @@
 package ApplicaionForWorkers;
 
-import ApplicaionForWorkers.GUI.window.View;
+import ApplicaionForWorkers.GUI.Window.View;
 
 public class Main {
     public static void main(String[] args) {

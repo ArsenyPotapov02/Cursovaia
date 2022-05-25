@@ -1,4 +1,4 @@
-package ApplicaionForWorkers.GUI.window;
+package ApplicaionForWorkers.GUI.Window;
 
 import javax.swing.*;
 

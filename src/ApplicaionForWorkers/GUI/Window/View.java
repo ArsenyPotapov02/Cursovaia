@@ -29,7 +29,7 @@ public class View extends JFrame {
     private JButton delButton;
     private JButton updateButton;
     private JButton editButton;
-    private JButton searchButton;
+    private JLabel searchLabel;
 
     public  View(){
         menuBar = new JMenuBar();
@@ -59,13 +59,13 @@ public class View extends JFrame {
         editButton = new JButton("Редактировать");
         delButton = new JButton("Удалить");
         updateButton = new JButton("Обновить");
-        searchButton = new JButton("Поиск");
+        searchLabel = new JLabel("Поиск");
         topPanel.add(addButton);
         topPanel.add(delButton);
         topPanel.add(updateButton);
         topPanel.add(editButton);
         topPanel.add(searchField);
-        topPanel.add(searchButton);
+        topPanel.add(searchLabel);
         add(topPanel, BorderLayout.NORTH);
 
         table = new JTable();
@@ -87,10 +87,6 @@ public class View extends JFrame {
 
     public JButton getEditButton() {
         return editButton;
-    }
-
-    public JButton getSearchButton() {
-        return searchButton;
     }
 
     public JButton getUpdateButton() {

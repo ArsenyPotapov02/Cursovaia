@@ -30,4 +30,12 @@ public class Company {
         this.workersList.add(workers);
     }
 
+    public void deleteWorker(int index){
+        this.workersList.remove(index);
+    }
+
+    public void deleteDetail(int index){
+        this.detailList.remove(index);
+    }
+
 }

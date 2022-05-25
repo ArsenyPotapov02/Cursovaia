@@ -9,12 +9,18 @@ import ApplicaionForWorkers.Model.Company;
 import ApplicaionForWorkers.Model.Detail;
 import ApplicaionForWorkers.Model.Workers;
 
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller {
     private WorkerTableModel workerTableModel;
     private DetailTableModel detailTableModel;
+    private TableRowSorter<AbstractTableModel> sorter;
     private Company company;
     private boolean selectFlag = true;//выбран список работников
 
@@ -59,6 +65,67 @@ public class Controller {
                 }else {
                     detailTableModel.fireTableDataChanged();
                 }
+            }
+        });
+
+        view.getDelButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = -1;
+                try{
+                    index = view.getTable().getSelectedRow();
+
+                    if (index == -1)
+                        throw new Exception("Не выбрана строка");
+                    if (selectFlag){
+                        company.deleteWorker(index);
+                    }else {
+                        company.deleteDetail(index);
+                    }
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(view,
+                            ex.getMessage(),
+                            "Предупреждение", JOptionPane.WARNING_MESSAGE );
+                }
+            }
+        });
+
+        view.getSearchField().getDocument().addDocumentListener(new DocumentListener() {
+
+            public void newFilter(){
+                if (selectFlag){
+                    sorter = new TableRowSorter<>(workerTableModel);
+                }else {
+                    sorter = new TableRowSorter<>(detailTableModel);
+                }
+
+                view.getTable().setRowSorter(sorter);
+                RowFilter<AbstractTableModel,Object> rf = null;
+
+                try {
+                    rf = RowFilter.regexFilter("(?i)" + view.getSearchField().getText());
+
+                }
+                catch(java.util.regex.PatternSyntaxException e) {
+                    return;
+                }
+                sorter.setRowFilter(rf);
+            }
+            @Override
+            public void insertUpdate(DocumentEvent de) {
+                newFilter();
+
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent de) {
+                newFilter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent de) {
+                newFilter();
             }
         });
 

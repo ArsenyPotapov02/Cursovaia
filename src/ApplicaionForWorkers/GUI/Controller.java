@@ -7,6 +7,7 @@ import ApplicaionForWorkers.GUI.Window.View;
 import ApplicaionForWorkers.GUI.Window.WorkerInputWindow;
 import ApplicaionForWorkers.Model.Company;
 import ApplicaionForWorkers.Model.Detail;
+import ApplicaionForWorkers.Model.Workers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,7 +44,7 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectFlag){
-                    new WorkerInputWindow();
+                    executeWorkerInputWindow(new WorkerInputWindow());
                 }else {
                     executeDetailInputWindow(new DetailInputWindow());
                 }
@@ -81,6 +82,22 @@ public class Controller {
     }
 
     public void executeWorkerInputWindow(WorkerInputWindow window){
-
+        window.getAddButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String fullname = window.getFullnameField().getText();
+                    String position = window.getPositionField().getText();
+                    String education = window.getEducationField().getText();
+                    String address = window.getAddressField().getText();
+                    String phoneNumber = window.getPhoneNumberField().getText();
+                    int salary = Integer.parseInt(window.getSalaryField().getText());
+                    company.addWorker(new Workers(fullname, position, education, address, phoneNumber, salary));
+                    window.dispose();
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+            }
+        });
     }
 }

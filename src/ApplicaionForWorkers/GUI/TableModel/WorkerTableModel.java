@@ -9,6 +9,10 @@ import javax.swing.table.AbstractTableModel;
 
 public class WorkerTableModel extends AbstractTableModel {
     private Company company;
+
+    public WorkerTableModel(Company company){
+        this.company = company;
+    }
     @Override
     public int getRowCount() {
         return company.getWorkersListSize();

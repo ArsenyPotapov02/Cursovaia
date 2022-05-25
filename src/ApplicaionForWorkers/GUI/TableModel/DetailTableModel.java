@@ -8,6 +8,11 @@ import javax.swing.table.AbstractTableModel;
 
 public class DetailTableModel extends AbstractTableModel {
     private Company company;
+
+    public DetailTableModel(Company company){
+        this.company = company;
+    }
+
     @Override
     public int getRowCount() {
         return company.getDetailListSize();
@@ -40,7 +45,7 @@ public class DetailTableModel extends AbstractTableModel {
     public String getColumnName(int column){
         switch (column){
             case 0: return "Код детали";
-            case 1: return "Название";
+            case 1: return "Название детали";
             case 2: return "Количество";
         }
         return "";

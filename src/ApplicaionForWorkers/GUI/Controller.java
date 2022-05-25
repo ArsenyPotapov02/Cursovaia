@@ -2,22 +2,31 @@ package ApplicaionForWorkers.GUI;
 
 import ApplicaionForWorkers.GUI.TableModel.DetailTableModel;
 import ApplicaionForWorkers.GUI.TableModel.WorkerTableModel;
+import ApplicaionForWorkers.GUI.Window.DetailInputWindow;
 import ApplicaionForWorkers.GUI.Window.View;
+import ApplicaionForWorkers.GUI.Window.WorkerInputWindow;
 import ApplicaionForWorkers.Model.Company;
+import ApplicaionForWorkers.Model.Detail;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller {
- private WorkerTableModel workerTableModel;
- private DetailTableModel detailTableModel;
+    private WorkerTableModel workerTableModel;
+    private DetailTableModel detailTableModel;
     private Company company;
+    private boolean selectFlag = true;//выбран список работников
+
     public void execute(View view){
-        workerTableModel = new WorkerTableModel();
-        detailTableModel = new DetailTableModel();
+        company = new Company();
+        workerTableModel = new WorkerTableModel(company);
+        detailTableModel = new DetailTableModel(company);
+        view.getTable().setModel(workerTableModel);
+        company.addDetail(new Detail(1,"диск", 56));
         view.getListOfProducts().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                selectFlag = false;
                 view.getTable().setModel(detailTableModel);
             }
         });
@@ -25,8 +34,53 @@ public class Controller {
         view.getListOfWorkers().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                selectFlag = true;
                 view.getTable().setModel(workerTableModel);
             }
         });
+
+        view.getAddButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (selectFlag){
+                    new WorkerInputWindow();
+                }else {
+                    executeDetailInputWindow(new DetailInputWindow());
+                }
+            }
+        });
+
+        view.getUpdateButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (selectFlag){
+                    workerTableModel.fireTableDataChanged();
+                }else {
+                    detailTableModel.fireTableDataChanged();
+                }
+            }
+        });
+
+    }
+
+    public void executeDetailInputWindow(DetailInputWindow window){
+        window.getAddButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int code = Integer.parseInt(window.getCodeField().getText());
+                    String title = window.getTitleField().getText();
+                    int quantity = Integer.parseInt(window.getQuantityField().getText());
+                    company.addDetail(new Detail(code, title, quantity));
+                    window.dispose();
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+            }
+        });
+    }
+
+    public void executeWorkerInputWindow(WorkerInputWindow window){
+
     }
 }

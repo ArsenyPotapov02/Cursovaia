@@ -22,4 +22,12 @@ public class Company {
         return detailList.get(index);
     }
 
+    public void addDetail(Detail detail){
+        this.detailList.add(detail);
+    }
+
+    public void addWorker(Workers workers){
+        this.workersList.add(workers);
+    }
+
 }

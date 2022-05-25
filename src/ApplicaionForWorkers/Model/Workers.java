@@ -19,4 +19,28 @@ public class Workers {
         this.phoneNumber = phoneNumber;
         this.salary = salary;
     }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getPosition() {
+        return position;
+    }
 }

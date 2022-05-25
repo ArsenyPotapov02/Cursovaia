@@ -10,4 +10,16 @@ public class Detail {
         this.title = title;
         this.quantity =quantity;
     }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }

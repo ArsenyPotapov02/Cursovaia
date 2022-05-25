@@ -1,5 +1,6 @@
 package ApplicaionForWorkers;
 
+import ApplicaionForWorkers.GUI.Controller;
 import ApplicaionForWorkers.GUI.Window.View;
 
 public class Main {
@@ -7,7 +8,8 @@ public class Main {
 
         //Company company = new Company();
         View view = new View();
-        //Controller controller = new Controller();
-        //controller.execute(company, view);
+
+        Controller controller = new Controller();
+        controller.execute(view);
     }
 }

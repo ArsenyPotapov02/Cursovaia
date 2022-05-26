@@ -7,7 +7,7 @@ public class WorkerInputWindow extends JFrame {
     private JLabel fullnameLabel = new JLabel("Имя рабочего");
     private JLabel positionLabel = new JLabel("Тип профессии");
     private JLabel educationLabel = new JLabel("Тип образования");
-    private JLabel addressLabel = new JLabel("Адресс");
+    private JLabel addressLabel = new JLabel("Адрес");
     private JLabel phoneNumberLabel = new JLabel("Номер телефона");
     private JLabel salaryLabel = new JLabel("Зарплата");
     private JLabel headLabel = new JLabel("Работник");

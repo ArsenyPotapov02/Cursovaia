@@ -1,5 +1,6 @@
 package ApplicaionForWorkers;
 
+import ApplicaionForWorkers.GUI.BD;
 import ApplicaionForWorkers.GUI.Controller;
 import ApplicaionForWorkers.GUI.Window.View;
 
@@ -11,5 +12,6 @@ public class Main {
 
         Controller controller = new Controller();
         controller.execute(view);
+        BD.BDmain();
     }
 }

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d311b782-501d-49e1-84a8-06052d8032f6" name="Changes" comment="доработал controller">
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/BD.java" afterDir="false" />
+    <list default="true" id="d311b782-501d-49e1-84a8-06052d8032f6" name="Changes" comment="попытка прикрутить бд">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/WorkerInputWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/WorkerInputWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,8 +32,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "D:/презентаци/драва java/mysql-connector-java-8.0.27.jar",
+    "last_opened_file_path": "C:/Users/Home/Desktop/ISTb-20-1_Popovich",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
@@ -120,7 +116,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653471367681</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="попытка прикрутить бд">
+      <created>1653585162012</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1653585162012</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -143,6 +146,7 @@
     <MESSAGE value="Сделал обработчик нажатия на кнопку окна добавления" />
     <MESSAGE value="Сделал обработчик нажатия на кнопку окна добавления работника" />
     <MESSAGE value="доработал controller" />
-    <option name="LAST_COMMIT_MESSAGE" value="доработал controller" />
+    <MESSAGE value="попытка прикрутить бд" />
+    <option name="LAST_COMMIT_MESSAGE" value="попытка прикрутить бд" />
   </component>
 </project>

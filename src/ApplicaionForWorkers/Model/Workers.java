@@ -3,15 +3,16 @@ package ApplicaionForWorkers.Model;
 public class Workers {
     private String fullName;
     private String position;
-    private String education;
+
     private String address;
     private String phoneNumber;
     private int salary;
+    private int departmentNumber;
 
-    public Workers(String fullName, String position, String education, String address, String phoneNumber, int salary){
+    public Workers(int departmentNumber, String fullName, String position, String address, String phoneNumber, int salary){
+        this.departmentNumber = departmentNumber;
         this.fullName = fullName;
         this.position = position;
-        this.education = education;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.salary = salary;
@@ -25,8 +26,8 @@ public class Workers {
         return address;
     }
 
-    public String getEducation() {
-        return education;
+    public int getDepartmentNumber(){
+        return departmentNumber;
     }
 
     public String getFullName() {

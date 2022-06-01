@@ -3,7 +3,6 @@ package ApplicaionForWorkers.GUI.Window;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,7 +21,8 @@ public class View extends JFrame {
     private JMenuItem addWorker;
     private JMenuItem addProduct;
     private JMenuItem listOfWorkers;
-    private JMenuItem listOfProducts;
+    private JMenuItem listOfDetails;
+    private JMenuItem listOfTasks;
     private JPanel topPanel;
     private JTextField searchField;
     private JButton addButton;
@@ -33,7 +33,7 @@ public class View extends JFrame {
 
     public  View(){
         menuBar = new JMenuBar();
-        menuEdit = new JMenu("Редактирование");
+        menuEdit = new JMenu("Добавление");
         addProduct = new JMenuItem("Добавление детали");
         addWorker = new JMenuItem("Добавление работника");
 
@@ -42,11 +42,14 @@ public class View extends JFrame {
         menuBar.add(menuEdit);
 
         menuShowTables = new JMenu("Список");
-        listOfProducts = new JMenuItem("Детали");
+        listOfDetails = new JMenuItem("Детали");
         listOfWorkers = new JMenuItem("Работники");
+        listOfTasks = new JMenuItem("Задачи");
 
-        menuShowTables.add(listOfProducts);
+        menuShowTables.add(listOfDetails);
         menuShowTables.add(listOfWorkers);
+        menuShowTables.add(listOfTasks);
+
         menuBar.add(menuShowTables);
 
         setJMenuBar(menuBar);
@@ -58,7 +61,7 @@ public class View extends JFrame {
         addButton = new JButton("Добавить");
         editButton = new JButton("Редактировать");
         delButton = new JButton("Удалить");
-        updateButton = new JButton("Обновить");
+        updateButton = new JButton("Cоздать задачу для работника");
         searchLabel = new JLabel("Поиск");
         topPanel.add(addButton);
         topPanel.add(delButton);
@@ -73,6 +76,7 @@ public class View extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         setVisible(true);
+        setPreferredSize(new Dimension(855,500));
         pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -101,13 +105,14 @@ public class View extends JFrame {
         return addWorker;
     }
 
-    public JMenuItem getListOfProducts() {
-        return listOfProducts;
+    public JMenuItem getListOfDetails() {
+        return listOfDetails;
     }
 
     public JMenuItem getListOfWorkers() {
         return listOfWorkers;
     }
+    public JMenuItem getListOfTasks(){return listOfTasks;}
 
     public JTable getTable() {
         return table;

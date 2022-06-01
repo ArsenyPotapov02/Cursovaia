@@ -25,28 +25,31 @@ public class DetailTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        String str = "";
-        Detail d = company.getDetail(rowIndex);
+        Detail d = company.getAllDetailsList().get(rowIndex);
         switch (columnIndex){
             case 0:
-                str = Integer.toString(d.getCode());
-                break;
+                return Integer.toString(d.getCode());
+
             case 1:
-                str = d.getTitle();
-                break;
+                return  d.getTitle();
+
             case 2:
-                str = Integer.toString(d.getQuantity());
-                break;
+                return  Integer.toString(d.getDepartmentNumber());
+
+            case 3:
+                return  Integer.toString(d.getQuantity());
+
 
         }
-        return str;
+        return null;
     }
 
     public String getColumnName(int column){
         switch (column){
             case 0: return "Код детали";
             case 1: return "Название детали";
-            case 2: return "Количество";
+            case 2: return "Номер отдела";
+            case 3: return "Количество";
         }
         return "";
     }

@@ -2,7 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d311b782-501d-49e1-84a8-06052d8032f6" name="Changes" comment="попытка прикрутить бд">
+      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/DataBase/DB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/DataBase/SqliteHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/ReportTableModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/AddWorkInputWindow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/ReportAboutWorks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/BD.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/DetailTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/DetailTableModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/WorkerTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/WorkerTableModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/DetailInputWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/DetailInputWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/WorkerInputWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/WorkerInputWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Detail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Detail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Workers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Workers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/utility/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/utility/Constant.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +50,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "last_opened_file_path": "C:/Users/Home/Desktop/ISTb-20-1_Popovich",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
   }
@@ -123,7 +140,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653585162012</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="попытка прикрутить бд">
+      <created>1653619688098</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1653619688098</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -148,5 +172,13 @@
     <MESSAGE value="доработал controller" />
     <MESSAGE value="попытка прикрутить бд" />
     <option name="LAST_COMMIT_MESSAGE" value="попытка прикрутить бд" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="company" language="JAVA" />
+        <watch expression="allDetailsList" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

@@ -4,16 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WorkerInputWindow extends JFrame {
-    private JLabel fullnameLabel = new JLabel("Имя рабочего");
-    private JLabel positionLabel = new JLabel("Тип профессии");
-    private JLabel educationLabel = new JLabel("Тип образования");
+    private JLabel departmentNumberLabel = new JLabel("Номер отдела");
+    private JLabel fullnameLabel = new JLabel("Фио работника");
+    private JLabel  positionLabel= new JLabel("Должность");
     private JLabel addressLabel = new JLabel("Адрес");
     private JLabel phoneNumberLabel = new JLabel("Номер телефона");
     private JLabel salaryLabel = new JLabel("Зарплата");
     private JLabel headLabel = new JLabel("Работник");
     private  JTextField fullnameField;
     private  JTextField positionField;
-    private  JTextField educationField;
+    private  JTextField departmentNumberField;
     private  JTextField addressField;
     private  JTextField phoneNumberField;
     private JTextField salaryField;
@@ -27,19 +27,19 @@ public class WorkerInputWindow extends JFrame {
         this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         fullnameField = new JTextField();
         positionField = new JTextField();
-        educationField = new JTextField();
+        departmentNumberField = new JTextField();
         addressField = new JTextField();
         phoneNumberField = new JTextField();
         salaryField = new JTextField();
         addButton = new JButton("Добавить");
         headLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         add(headLabel);
+        container.add(departmentNumberLabel);
+        container.add(departmentNumberField);
         container.add(fullnameLabel);
         container.add(fullnameField);
         container.add(positionLabel);
         container.add(positionField);
-        container.add(educationLabel);
-        container.add(educationField);
         container.add(addressLabel);
         container.add(addressField);
         container.add(phoneNumberLabel);
@@ -61,8 +61,8 @@ public class WorkerInputWindow extends JFrame {
         return addressField;
     }
 
-    public JTextField getEducationField() {
-        return educationField;
+    public JTextField getDepartmentNumberField() {
+        return departmentNumberField;
     }
 
     public JTextField getFullnameField() {

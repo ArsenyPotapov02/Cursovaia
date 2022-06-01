@@ -3,11 +3,28 @@ package ApplicaionForWorkers.Model;
 import java.util.ArrayList;
 
 public class Company {
-    private ArrayList<Detail> detailList = new ArrayList<>();
+    private ArrayList<Detail> AllDetailsList = new ArrayList<>();
     private ArrayList<Workers> workersList = new ArrayList<>();
+    private ArrayList<ReportAboutWorks> reportList =new ArrayList<>();
 
-    public int getDetailListSize(){
-        return detailList.size();
+    public  void setWorkersList(ArrayList<Workers> list){
+        workersList = list;
+    };
+    public void setDetailList(ArrayList<Detail> list){
+        this.AllDetailsList = list;
+
+    };
+    public void setReportList(ArrayList<ReportAboutWorks> list){
+        this.reportList = list;
+
+    };
+
+
+    public int  getDetailListSize(){
+        return AllDetailsList.size();
+    }
+    public int  getReportListSize(){
+        return reportList.size();
     }
 
     public int getWorkersListSize(){
@@ -18,12 +35,22 @@ public class Company {
         return workersList.get(index);
     }
 
+
     public Detail getDetail(int index){
-        return detailList.get(index);
+        System.out.println(this.AllDetailsList);
+        return this.AllDetailsList.get(index);
     }
 
+    public ArrayList<Detail> getAllDetailsList(){
+        return AllDetailsList;
+    }
+    public ArrayList<ReportAboutWorks> getReportList(){
+        return reportList;
+    }
+
+
     public void addDetail(Detail detail){
-        this.detailList.add(detail);
+        this.AllDetailsList.add(detail);
     }
 
     public void addWorker(Workers workers){
@@ -35,7 +62,7 @@ public class Company {
     }
 
     public void deleteDetail(int index){
-        this.detailList.remove(index);
+        this.AllDetailsList.remove(index);
     }
 
 }

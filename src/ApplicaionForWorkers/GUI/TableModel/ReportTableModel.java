@@ -6,6 +6,7 @@ import ApplicaionForWorkers.Model.ReportAboutWorks;
 import ApplicaionForWorkers.utility.Constant;
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
 
 public class ReportTableModel extends AbstractTableModel {
@@ -29,30 +30,63 @@ public class ReportTableModel extends AbstractTableModel {
         ReportAboutWorks d = company.getReportList().get(rowIndex);
         switch (columnIndex){
             case 0:
-                return Integer.toString(d.getiDWork());
+                return d.getFullName();
 
             case 1:
-                return  d.getFullName();
-
-            case 2:
                 return  Integer.toString(d.getDepartmentNumber());
 
-            case 3:
+            case 2:
                 return  d.getPosition();
-            case 4:
+
+            case 3:
                 return  d.getNameOfdetail();
-            case 5:
+            case 4:
                 return  d.getWorkWithDetails();
+            case 5:
+                return Integer.toString(d.getQuantity());
+
             case 6:
-                return  Integer.toString(d.getQuantity());
-            case 7:
-                return  d.getDateOfCompleteWork();
-
-
+                return  d.getCheckOfCompleteWork();
 
         }
         return null;
     }
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        switch (columnIndex)
+        {
+            case 0:
+                company.getReportAboutWorks(rowIndex).setFullName((String) aValue);
+                break;
+            case 1:
+                try {
+                    company.getReportAboutWorks(rowIndex).setDepartmentNumber(Integer.parseInt((String) aValue));
+                }catch (NumberFormatException e){}
+                break;
+            case 2:
+                try {
+                    company.getReportAboutWorks(rowIndex).setPosition((String) aValue);
+                }
+                catch (NumberFormatException e){}
+                break;
+            case 3:
+                company.getReportAboutWorks(rowIndex).setNameOfdetail((String) aValue);
+                break;
+            case 4:
+                company.getReportAboutWorks(rowIndex).setWorkWithDetails((String) aValue);
+                break;
+            case 5:
+                company.getReportAboutWorks(rowIndex).setQuantity(Integer.parseInt((String) aValue));
+                break;
+            case 6:
+                company.getReportAboutWorks(rowIndex).setCheckOfCompleteWork((String) aValue);
+                break;
+
+        }
+        fireTableCellUpdated(rowIndex,columnIndex);
+
+    }
+
 
     public String getColumnName(int column){
         switch (column){
@@ -62,8 +96,14 @@ public class ReportTableModel extends AbstractTableModel {
             case 3: return "Название детали";
             case 4: return "Работа с деталью";
             case 5: return "Количество деталей";
-            case 6: return "Дата выполнения";
+            case 6: return "Статус";
         }
         return "";
     }
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return true;
+    }
+
+
 }

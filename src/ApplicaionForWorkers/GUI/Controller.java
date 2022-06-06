@@ -1,34 +1,36 @@
 package ApplicaionForWorkers.GUI;
 
 import ApplicaionForWorkers.GUI.DataBase.DB;
+import ApplicaionForWorkers.GUI.Security.Encryption;
 import ApplicaionForWorkers.GUI.TableModel.DetailTableModel;
 import ApplicaionForWorkers.GUI.TableModel.ReportTableModel;
 import ApplicaionForWorkers.GUI.TableModel.WorkerTableModel;
-import ApplicaionForWorkers.GUI.Window.DetailInputWindow;
-import ApplicaionForWorkers.GUI.Window.View;
-import ApplicaionForWorkers.GUI.Window.WorkerInputWindow;
-import ApplicaionForWorkers.GUI.Window.AddWorkInputWindow;
+import ApplicaionForWorkers.GUI.Window.*;
 import ApplicaionForWorkers.Model.Company;
 import ApplicaionForWorkers.Model.Detail;
-import ApplicaionForWorkers.Model.ReportAboutWorks;
 import ApplicaionForWorkers.Model.Workers;
-import jdk.nashorn.internal.parser.DateParser;
+
+
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.security.Security;
+
 
 public class Controller {
     private WorkerTableModel workerTableModel;
     private DetailTableModel detailTableModel;
     private ReportTableModel reportTableModel;
     private TableRowSorter<AbstractTableModel> sorter;
+
     private Company company;
     private int selectFlag = 1;//выбран список работников
     private DB db;
@@ -42,12 +44,15 @@ public class Controller {
         reportTableModel = new ReportTableModel(company);
         workerTableModel = new WorkerTableModel(company);
         detailTableModel = new DetailTableModel(company);
-        view.getTable().setModel(reportTableModel);
+
+
         view.getListOfTasks().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectFlag = 1;
                 view.getTable().setModel(reportTableModel);
+                view.getAddButton().setVisible(false);
+                view.getUpdateButton().setVisible(true);
             }
         });
         view.getListOfDetails().addActionListener(new ActionListener() {
@@ -55,6 +60,8 @@ public class Controller {
             public void actionPerformed(ActionEvent e) {
                 selectFlag = 2;
                 view.getTable().setModel(detailTableModel);
+                view.getAddButton().setVisible(true);
+                view.getUpdateButton().setVisible(false);
             }
         });
 
@@ -63,6 +70,8 @@ public class Controller {
             public void actionPerformed(ActionEvent e) {
                 selectFlag = 3;
                 view.getTable().setModel(workerTableModel);
+                view.getAddButton().setVisible(true);
+                view.getUpdateButton().setVisible(false);
             }
         });
         view.getAddWorker().addActionListener(new ActionListener() {
@@ -79,7 +88,25 @@ public class Controller {
                 executeDetailInputWindow(new DetailInputWindow());
             }
         });
+        view.getEditButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
 
+                    if (selectFlag == 2) {
+                        executeUpdateDetailWindow(new UpdateDetailWindow(), view);
+                    } else if (selectFlag == 3) {
+                        executeUpdateWorkerWindow(new UpdateWorkerWindow(), view);
+                    } else if (selectFlag == 1) {
+                        executeUpdateWorkWindow(new UpdateWorkWindow(), view);
+                    }
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(view,
+                            ex.getMessage(),
+                            "Предупреждение", JOptionPane.WARNING_MESSAGE );
+                }
+            }
+        });
 
 
         view.getAddButton().addActionListener(new ActionListener() {
@@ -93,12 +120,57 @@ public class Controller {
             }
         });
 
-//        view.getUpdateButton().addActionListener(new ActionListener() {
+        view.getUpdateButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                executeAddWorkInputWindow(new AddWorkInputWindow());
+            }
+        });
+
+//        view.getEditButton().addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
-//                executeAddWorkInputWindow(new AddWorkInputWindow());
+//
+//                try {
+//                    if (selectFlag == 1) {
+//                        int row = view.getTable().getSelectedRow();
+//                        int codeDetail = company.getReportList().get(row).getCodeDetail();
+//                        int iDWork = company.getReportList().get(row).getiDWork();
+//                        int iDWorker = company.getReportList().get(row).getiDWorker();
+//
+//
+//                        String cell5 = view.getTable().getModel().getValueAt(row, 4).toString();
+//                        String cell7 = view.getTable().getModel().getValueAt(row, 6).toString();
+//                        try {
+//                            db.updateAccomplishment(iDWorker, cell5, cell7, codeDetail, iDWork);
+//                        } catch (Exception ex) {
+//
+//
+//                        }
+//                    } else if(selectFlag == 2){
+//                        int row = view.getTable().getSelectedRow();
+//                        int codeDetail = company.getAllDetailsList().get(row).getCode();
+//                        int departmentNumber = company.getAllDetailsList().get(row).getDepartmentNumberForDetail();
+//                        int quantity = company.getAllDetailsList().get(row).getQuantity();
+//
+//
+//                        String cell2 = view.getTable().getModel().getValueAt(row,1).toString();
+//
+//                        try {
+//                            db.updateDetails(codeDetail,cell2,departmentNumber,quantity);
+//                        } catch (Exception ex){
+//
+//                        }
+//
+//
+//                    }else if(selectFlag == 3){
+//
+//                    }
+//                }catch (Exception ex){}
 //            }
 //        });
+
+
 
         view.getDelButton().addActionListener(new ActionListener() {
             @Override
@@ -109,19 +181,27 @@ public class Controller {
                     index = view.getTable().getSelectedRow();
 
                     if (index == -1)
-                        throw new Exception("Не выбрана строка");
+                        throw new Exception("Строка не выбрана");
                     if (selectFlag == 3){
-                        db.deleteWorker(view.getTable().convertRowIndexToModel(view.getTable().getSelectedRow()));
-                        company.deleteWorker(index);
+                        Workers w = company.getWorker(view.getTable().convertRowIndexToModel(view.getTable().getSelectedRow()));
+                        db.deleteWorker(w.getIdWorker());
+                        company.setWorkersList(db.getWorketsList(company.getDepartmentNumber()));
                         workerTableModel.fireTableDataChanged();
                         db.closeDB();
                     } else if(selectFlag == 2) {
-                        db.deleteDetail(view.getTable().convertRowIndexToModel(view.getTable().getSelectedRow()));
-                        company.deleteDetail(index);
+                        Detail d =company.getDetail(view.getTable().convertRowIndexToModel(view.getTable().getSelectedRow()));
+                        db.deleteDetail(d.getCode());
+                        company.setDetailList(db.getDetailsList(company.getDepartmentNumber()));
                         detailTableModel.fireTableDataChanged();
                         db.closeDB();
                     } else if (selectFlag == 1){
-
+                        int iDWork =  company.getReportList().get(view.getTable().convertRowIndexToModel(view.getTable().getSelectedRow())).getiDWork();
+                        int iDWorker = company.getReportList().get(view.getTable().convertRowIndexToModel(view.getTable().getSelectedRow())).getiDWorker();
+                        int code = company.getReportList().get(view.getTable().convertRowIndexToModel(view.getTable().getSelectedRow())).getCodeDetail();
+                        db.deleteWork(iDWork);
+                        company.setReportList(db.getReportList(company.getDepartmentNumber()));
+                        reportTableModel.fireTableDataChanged();
+                        db.closeDB();
                     }
                     db.closeDB();
                 } catch (Exception ex) {
@@ -137,11 +217,14 @@ public class Controller {
             public void newFilter(){
                 if (selectFlag == 3){
                     sorter = new TableRowSorter<>(workerTableModel);
-                }else {
+                }else if(selectFlag == 2){
                     sorter = new TableRowSorter<>(detailTableModel);
+                } else if(selectFlag == 1){
+                    sorter = new TableRowSorter<>(reportTableModel);
                 }
 
                 view.getTable().setRowSorter(sorter);
+
                 RowFilter<AbstractTableModel,Object> rf = null;
 
                 try {
@@ -152,6 +235,7 @@ public class Controller {
                     return;
                 }
                 sorter.setRowFilter(rf);
+
             }
             @Override
             public void insertUpdate(DocumentEvent de) {
@@ -174,77 +258,507 @@ public class Controller {
 
 
     public void executeDetailInputWindow(DetailInputWindow window){
+        window.getDepartmentField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+        window.getCodeField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+        window.getQuantityField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
         window.getAddButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     db.openDB();
                     int code = Integer.parseInt(window.getCodeField().getText());
+                    if (code<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
                     String title = window.getTitleField().getText();
+                    if (title.equals("")){
+                        throw new Exception("Введите значение в поле 'Название'");
+                    }
                     int departmentNumberForDetail = Integer.parseInt(window.getDepartmentField().getText());
+                    if (departmentNumberForDetail<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
                     int quantity = Integer.parseInt(window.getQuantityField().getText());
-                    Detail d = new Detail(code, title, departmentNumberForDetail, quantity);
+                    if (quantity<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
+                    Detail d = new Detail(code, title, departmentNumberForDetail, quantity);// появляется ноль не читает с поля
                     db.createDetail(d);
-                    company.addDetail(d);
-                    window.dispose();
+                    company.setDetailList(db.getDetailsList(company.getDepartmentNumber()));
                     detailTableModel.fireTableDataChanged();
                     db.closeDB();
                 }catch (Exception ex){
-                    System.out.println(ex.getMessage());
+                    JOptionPane.showMessageDialog(window,
+                            ex.getMessage(),
+                            "Предупреждение", JOptionPane.WARNING_MESSAGE );
                 }
-
+                window.dispose();
             }
         });
     }
-//    public void executeAddWorkInputWindow(AddWorkInputWindow window){
-//        window.getAddButton().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                try {
-//                    db.openDB();
-//                    int idWorker = Integer.parseInt(window.getIdWorkerField().getText());
-//                    String workWithDetails = window.getWorkWithDetailField().getText();
-//                    int codeDetail = Integer.parseInt(window.getCodeDetailField().getText());
-//                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                    Date dateOfCompleteWork = new Date(window.getCompleteDateField().getText());
-//                      ReportAboutWorks r = new ReportAboutWorks(idWorker, workWithDetails, codeDetail, dateOfCompleteWork);
-//                    db.createWorker(w);
-//                    company.addWorker(w);
-//                    window.dispose();
-//                    workerTableModel.fireTableDataChanged();
-//                    db.closeDB();
-//                }catch (Exception ex){
-//                    System.out.println(ex.getMessage());
-//                }
-//
-//            }
-//        });
-//    }
+    public void executeUpdateDetailWindow(UpdateDetailWindow window,View view) throws Exception {
+        int row = view.getTable().getSelectedRow();
+        if(row == -1) {
+            throw new Exception("Строка не выбрана");
+        }
+        window.getCodeField().setText(Integer.toString(company.getDetail(row).getCode()));
+        window.getTitleField().setText(company.getDetail(row).getTitle());
+        window.getDepartmentField().setText(Integer.toString(company.getDetail(row).getDepartmentNumberForDetail()));
+        window.getQuantityField().setText(Integer.toString(company.getDetail(row).getQuantity()));
 
-    public void executeWorkerInputWindow(WorkerInputWindow window){
+        window.getDepartmentField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+        window.getCodeField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+        window.getQuantityField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+        window.getUpdateButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    db.openDB();
+                    int code = Integer.parseInt(window.getCodeField().getText());
+                    if (code<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
+                    String title = window.getTitleField().getText();
+                    if (title.equals("")){
+                        throw new Exception("Введите значение в поле 'Название'");
+                    }
+                    int departmentNumberForDetail = Integer.parseInt(window.getDepartmentField().getText());
+                    if (departmentNumberForDetail<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
+                    int quantity = Integer.parseInt(window.getQuantityField().getText());
+                    if (quantity<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
+
+                    db.updateDetails(code,title,departmentNumberForDetail,quantity);
+                    company.getDetail(row).setCode(code);
+                    company.getDetail(row).setTitle(title);
+                    company.getDetail(row).setDepartmentNumberForDetail(departmentNumberForDetail);
+                    company.getDetail(row).setQuantity(quantity);
+
+                    detailTableModel.fireTableDataChanged();
+                    db.closeDB();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(window,
+                            ex.getMessage(),
+                            "Предупреждение", JOptionPane.WARNING_MESSAGE );
+                }
+                window.dispose();
+            }
+        });
+    }
+
+    public void executeUpdateWorkWindow(UpdateWorkWindow window,View view) throws Exception {
+        int row = view.getTable().getSelectedRow();
+        if(row == -1) {
+            throw new Exception("Строка не выбрана");
+        }
+        String a[] = company.getPosition().split(" ");
+        for(int i = 0; i<a.length; i++) {
+            if (a[i].equalsIgnoreCase("Начальник")) {
+
+                break;
+            } else {
+                window.getWorkWithDetailField().setEnabled(false);
+                window.getCodeDetailField().setEnabled(false);
+                window.getIdWorkerField().setEnabled(false);
+            }
+        }
+        int iDWork = company.getReportList().get(row).getiDWork();
+        int iDWorker = company.getReportList().get(row).getiDWorker();
+        int codeDetail = company.getReportList().get(row).getCodeDetail();
+        window.getIdWorkerField().setText(Integer.toString(iDWorker));
+        window.getCodeDetailField().setText(Integer.toString(codeDetail));
+        window.getWorkWithDetailField().setText(company.getReportAboutWorks(row).getWorkWithDetails());
+        window.getCompleteCheckField().setText(company.getReportAboutWorks(row).getCheckOfCompleteWork());
         window.getAddButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     db.openDB();
-                    int  departmentNumber = Integer.parseInt(window.getDepartmentNumberField().getText());
-                    String fullname = window.getFullnameField().getText();
+
+
+                    String workWithDetail = window.getWorkWithDetailField().getText();
+                    if (workWithDetail.equals("")){
+                        throw new Exception("Введите значение в поле 'Работа с деталью'");
+                    }
+                    String checkOfWork =window.getCompleteCheckField().getText();
+                    if (checkOfWork.equals("")){
+                        throw new Exception("Введите значение в поле 'Статус'");
+                    }
+
+                    db.updateAccomplishment(iDWorker,workWithDetail,checkOfWork,codeDetail,iDWork);
+                    company.getReportAboutWorks(row).setiDWorker(iDWorker);
+                    company.getReportAboutWorks(row).setWorkWithDetails(workWithDetail);
+                    company.getReportAboutWorks(row).setCheckOfCompleteWork(checkOfWork);
+                    company.getReportAboutWorks(row).setCodeDetail(codeDetail);
+                    company.getReportAboutWorks(row).setiDWork(iDWork);
+
+                    reportTableModel.fireTableDataChanged();
+                    db.closeDB();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(window,
+                            ex.getMessage(),
+                            "Предупреждение", JOptionPane.WARNING_MESSAGE );
+                }
+                window.dispose();
+            }
+        });
+    }
+    public void executeUpdateWorkerWindow(UpdateWorkerWindow window,View view) throws Exception {
+        int row = view.getTable().getSelectedRow();
+        if(row == -1) {
+            throw new Exception("Строка не выбрана");
+        }
+        String passwordOld = company.getWorker(row).getPassword();
+        window.getDepartmentNumberField().setText(Integer.toString(company.getWorker(row).getDepartmentNumber()));
+        window.getFullnameField().setText(company.getWorker(row).getFullName());
+        window.getPositionField().setText(company.getWorker(row).getPosition());
+        window.getAddressField().setText(company.getWorker(row).getAddress());
+        window.getPhoneNumberField().setText(company.getWorker(row).getPhoneNumber());
+        window.getSalaryField().setText(Integer.toString(company.getWorker(row).getSalary()));
+
+        window.getPasswordField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+
+        window.getPhoneNumberField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+        window.getDepartmentNumberField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+
+        window.getAddButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    db.openDB();
+                    int idWorker = company.getWorker(row).getIdWorker();
+                    int departmentNumber = Integer.parseInt(window.getDepartmentNumberField().getText());
+                    if (departmentNumber<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
+                    String fullName = window.getFullnameField().getText();
+                    if (fullName.equals("")){
+                        throw new Exception("Введите значение в поле 'ФИО работника'");
+                    }
                     String position = window.getPositionField().getText();
-                    String address = window.getAddressField().getText();
+                    if (position.equals("")){
+                        throw new Exception("Введите значение в поле 'Должность'");
+                    }
+                    String adress = window.getAddressField().getText();
+                    if (adress.equals("")){
+                        throw new Exception("Введите значение в поле 'Адрес'");
+                    }
                     String phoneNumber = window.getPhoneNumberField().getText();
+                    if (phoneNumber.equals("") ){
+                        throw new Exception("Введите значение в поле 'Номер телефона'");
+                    }
                     int salary = Integer.parseInt(window.getSalaryField().getText());
-                    Workers w = new Workers(departmentNumber,fullname, position, address, phoneNumber, salary);
-                    db.createWorker(w);
-                    company.addWorker(w);
-                    window.dispose();
+                    if (salary<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
+                    String password = Encryption.encrypt(window.getPasswordField().getText());
+                    if (password.equals("")){
+                        throw new Exception("Введите значение в поле 'Пароль'");
+                    }
+                    if(password.equals("")){
+                        db.updateWorker(idWorker,departmentNumber,fullName,position,adress,phoneNumber,salary,passwordOld);
+                    } else{
+                        db.updateWorker(idWorker,departmentNumber,fullName,position,adress,phoneNumber,salary,password);
+                    }
+
+                    company.getWorker(row).setIdWorker(idWorker);
+                    company.getWorker(row).setDepartmentNumber(departmentNumber);
+                    company.getWorker(row).setFullName(fullName);
+                    company.getWorker(row).setPosition(position);
+                    company.getWorker(row).setAddress(adress);
+                    company.getWorker(row).setPhoneNumber(phoneNumber);
+                    company.getWorker(row).setSalary(salary);
+                    company.getWorker(row).setPassword(password);
                     workerTableModel.fireTableDataChanged();
                     db.closeDB();
                 }catch (Exception ex){
-                    System.out.println(ex.getMessage());
+                    JOptionPane.showMessageDialog(window,
+                            ex.getMessage(),
+                            "Предупреждение", JOptionPane.WARNING_MESSAGE );
                 }
-
+                window.dispose();
             }
         });
+    }
+    public void executeAddWorkInputWindow(AddWorkInputWindow window){
+        window.getCodeDetailField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+        window.getIdWorkerField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+
+        window.getAddButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    db.openDB();
+                    int idWorker = Integer.parseInt(window.getIdWorkerField().getText());
+                    if (idWorker<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
+                    String workWithDetails = window.getWorkWithDetailField().getText();
+                    if (workWithDetails.equals("")){
+                        throw new Exception("Введите значение в поле 'Работа с деталью'");
+                    }
+                    int codeDetail = Integer.parseInt(window.getCodeDetailField().getText());
+                    if (codeDetail<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
+                    String checkOfCompleteWork = window.getCompleteCheckField().getText();
+                    if (checkOfCompleteWork.equals("")){
+                        throw new Exception("Введите значение в поле 'Статус'");
+                    }
+
+                    db.createAccoplishment(idWorker,workWithDetails,checkOfCompleteWork,codeDetail);
+
+                    company.setReportList(db.getReportList(company.getDepartmentNumber()));
+                    reportTableModel.fireTableDataChanged();
+                    db.closeDB();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(window,
+                            ex.getMessage(),
+                            "Предупреждение", JOptionPane.WARNING_MESSAGE );
+                }
+                window.dispose();
+            }
+        });
+    }
+
+    public void executeWorkerInputWindow(WorkerInputWindow window){
+
+        window.getPhoneNumberField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+        window.getPasswordField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        window.getDepartmentNumberField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                    e.consume();
+                }
+            }
+        });
+
+        window.getDepartmentNumberField().setText(Integer.toString(company.getDepartmentNumber()));
+
+        window.getAddButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    db.openDB();
+                    int  departmentNumber = company.getDepartmentNumber();
+                    if (departmentNumber<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
+                    String fullname = window.getFullnameField().getText();
+                    if (fullname.equals("")){
+                        throw new Exception("Введите значение в поле 'ФИО работника'");
+                    }
+                    String position = window.getPositionField().getText();
+                    if (position.equals("")){
+                        throw new Exception("Введите значение в поле 'Должность'");
+                    }
+                    String address = window.getAddressField().getText();
+                    if (address.equals("")){
+                        throw new Exception("Введите значение в поле 'Адрес'");
+                    }
+                    String phoneNumber = window.getPhoneNumberField().getText();
+                    if (phoneNumber.equals("")){
+                        throw new Exception("Введите значение в поле 'Номер телефона'");
+                    }
+                    int salary = Integer.parseInt(window.getSalaryField().getText());
+                    if (salary<0){
+                        throw new Exception("Значение должно быть больше нуля!");
+                    }
+                    String password = window.getPasswordField().getText();
+                    if (password.equals("")){
+                        throw new Exception("Введите значение в поле 'Пароль'");
+                    }
+
+                    Workers w = new Workers(departmentNumber,fullname, position, address, phoneNumber, salary, password);
+                    db.createWorker(w);
+                    company.setWorkersList(db.getWorketsList(company.getDepartmentNumber()));
+                    workerTableModel.fireTableDataChanged();
+                    db.closeDB();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(window,
+                            ex.getMessage(),
+                            "Предупреждение", JOptionPane.WARNING_MESSAGE );
+                }
+                window.dispose();
+            }
+        });
+    }
+    public void executeAuthenticationWindow(AuthentacationWindow window,View view){
+        window.getAuthenticationButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                boolean login = false;
+                try {
+                    login = login(Integer.parseInt(window.getLoginField().getText()), window.getPasswordField().getText());
+                    if (login){
+                        String position = company.getPosition();
+                        int departmentNumber = company.getDepartmentNumber();
+                        db.openDB();
+                        company.setReportList(db.getReportList(departmentNumber));
+                        company.setWorkersList(db.getWorketsList(departmentNumber));
+                        company.setDetailList(db.getDetailsList(departmentNumber));
+                        view.getTable().setModel(reportTableModel);
+                        reportTableModel.fireTableDataChanged();
+                        view.getAddButton().setVisible(false);
+                        view.getUpdateButton().setVisible(true);
+                        String a[] = company.getPosition().split(" ");
+                        for(int i = 0; i<a.length; i++){
+                            if (a[i].equalsIgnoreCase("Начальник")){
+                                break;
+                            }else{
+                                view.getDelButton().setEnabled(false);
+                                view.getAddProduct().setEnabled(false);
+                                view.getAddWorker().setEnabled(false);
+                                view.getListOfTasks().setEnabled(false);
+                                view.getListOfDetails().setEnabled(false);
+                                view.getListOfWorkers().setEnabled(false);
+                                view.getUpdateButton().setEnabled(false);
+
+                                TableColumn tcol = view.getTable().getColumnModel().getColumn(0);
+                                view.getTable().removeColumn(tcol);
+                                tcol = view.getTable().getColumnModel().getColumn(0);
+                                view.getTable().removeColumn(tcol);
+
+                            }
+                        }
+                        db.closeDB();
+                        view.setVisible(true);
+
+                        window.dispose();
+                    }else{
+                        JOptionPane.showMessageDialog(view,
+                                "Вы ввели неверный пароль!!",
+                                "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                        window.getPasswordField().setText("");
+                    }
+                } catch (Exception e) {
+                    window.getLoginField().setText("");
+                    JOptionPane.showMessageDialog(view,
+                            "Работник не найден!!",
+                            "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                }
+            }
+        });
+    }
+    private boolean login(int id, String password) throws Exception{
+        boolean checkFlag = false;
+        Workers workers = db.getAuthentacationWorker(id);
+
+        if (workers.getPassword().equals(Encryption.encrypt(password))){
+            company.setPosition(workers.getPosition());
+            company.setDepartmentNumber(workers.getDepartmentNumber());
+            checkFlag = true;
+        }
+        return checkFlag;
     }
     public void setDataBase(DB db){
         this.db = db;

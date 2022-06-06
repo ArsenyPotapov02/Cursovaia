@@ -10,7 +10,7 @@ public class Detail {
         this.code = code;
         this.title = title;
         this.departmentNumberForDetail = departmentNumberForDetail;
-        this.quantity =quantity;
+        this.quantity = quantity;
     }
 
     public int getCode() {
@@ -20,9 +20,25 @@ public class Detail {
     public String getTitle() {
         return title;
     }
-    public int getDepartmentNumber(){return departmentNumberForDetail;}
+    public int getDepartmentNumberForDetail(){return departmentNumberForDetail;}
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public void setDepartmentNumberForDetail(int departmentNumberForDetail) {
+        this.departmentNumberForDetail = departmentNumberForDetail;
     }
 }

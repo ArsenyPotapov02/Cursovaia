@@ -65,16 +65,17 @@ public class View extends JFrame {
         searchLabel = new JLabel("Поиск");
         topPanel.add(addButton);
         topPanel.add(delButton);
-        topPanel.add(updateButton);
         topPanel.add(editButton);
+        topPanel.add(updateButton);
         topPanel.add(searchField);
         topPanel.add(searchLabel);
         add(topPanel, BorderLayout.NORTH);
 
         table = new JTable();
+        table.setEnabled(true);
+        table.isCellEditable(1,-1);
         scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
-
         setVisible(true);
         setPreferredSize(new Dimension(855,500));
         pack();

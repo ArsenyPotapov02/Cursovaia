@@ -4,7 +4,7 @@ import ApplicaionForWorkers.Model.Detail;
 import ApplicaionForWorkers.Model.ReportAboutWorks;
 import ApplicaionForWorkers.Model.Workers;
 import ApplicaionForWorkers.utility.Constant;
-import com.mysql.cj.protocol.Resultset;
+
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -52,6 +52,7 @@ public abstract class SqliteHelper {
                 "Adress TEXT NOT NULL," +
                 "Phone_number TEXT NOT NULL check (length (Phone_number) = 12)," +
                 "Salary INTEGER NOT NULL Check (Salary > 0)," +
+                "Password	TEXT NOT NULL UNIQUE," +
                 "FOREIGN KEY( Department_number ) REFERENCES Department(Number_of_department)," +
                 "PRIMARY KEY(ID_worker AUTOINCREMENT)" +
                 ");");
@@ -60,7 +61,7 @@ public abstract class SqliteHelper {
                 "( ID_work INTEGER NOT NULL Check (ID_work > 0)," +
                 " ID_worker INTEGER NOT NULL Check (ID_worker > 0)," +
                 " Work_with_details Text NOT NULL," +
-                " Date_of_complete_work date NOT NULL," +
+                " Check_of_complete_work text NOT NULL," +
                 " Code_detail INTEGER NOT NULL Check (Code_detail > 0)," +
                 " FOREIGN KEY( ID_worker ) REFERENCES Workers(ID_worker)," +
                 " FOREIGN KEY( Code_detail ) REFERENCES Details(Code_detail)," +
@@ -82,54 +83,69 @@ public abstract class SqliteHelper {
         statement.close();
     }
 
-    public void updateWorker(int id_worker, String departmentNumber, String fullName, String position, String adress, String phone_number, int salary) throws SQLException{
-        statement = connection.prepareStatement("Update Workers Set Departmenr_number = ?, Full_name = ?, Position = ?, Adress = ?, Phone_number = ?, Salary = ? where ID_worker = ?; ");
-        statement.setObject(1, departmentNumber);
+    public void updateWorker(int id_worker, int departmentNumber, String fullName, String position, String adress, String phone_number, int salary, String password) throws SQLException{
+        statement = connection.prepareStatement("Update Workers Set Department_number = ?, Full_name = ?, Position = ?, Adress = ?, Phone_number = ?, Salary = ?, Password = ? where ID_worker = ?; ");
+        statement.setObject(1,departmentNumber);
         statement.setObject(2,fullName);
         statement.setObject(3,position);
         statement.setObject(4,adress);
         statement.setObject(5,phone_number);
         statement.setObject(6,salary);
-        statement.setObject(7, id_worker);
+        statement.setObject(7,password);
+        statement.setObject(8,id_worker);
         statement.executeUpdate();
         statement.close();
     }
 
-    public void updateAcconplishment(int id_work, Date date, int codeDetail) throws SQLException{
-        statement = connection.prepareStatement("Update Accomplishment Set Date_of_complete_work = ?, Code_detail = ? where ID_work = ? ");
-        statement.setObject(1,date);
-        statement.setObject(2,codeDetail);
-        statement.setObject(3,id_work);
+    public void updateAccomplishment(int iD_worker, String workWithDetails, String checkOfCompleteWork, int codeDetail, int id_work) throws SQLException{
+        statement = connection.prepareStatement("Update Accomplishment Set ID_worker = ?, Work_with_details = ?, Check_of_complete_work = ?, Code_detail = ? where ID_work = ?; ");
+        statement.setObject(1,iD_worker);
+        statement.setObject(2,workWithDetails);
+        statement.setObject(3,checkOfCompleteWork);
+        statement.setObject(4,codeDetail);
+        statement.setObject(5,id_work);
         statement.executeUpdate();
         statement.close();
     }
-    public void updateDetails(int code, String nameOfDetail, int quantity) throws SQLException{
-        statement = connection.prepareStatement("Update Details Set Name_of_detail = ?, Quantity = ?  where Code_detail = ?");
+    public void updateDetails(int code, String nameOfDetail, int departmentNumber, int quantity) throws SQLException{
+        statement = connection.prepareStatement("Update Details Set Name_of_detail = ?, Department_number = ?,  Quantity = ?  where Code_detail = ?;");
         statement.setObject(1,nameOfDetail);
-        statement.setObject(2, quantity);
-        statement.setObject(3, code);
+        statement.setObject(2,departmentNumber);
+        statement.setObject(3,quantity);
+        statement.setObject(4,code);
         statement.executeUpdate();
         statement.close();
 
     }
 
     public void createWorker(Workers workers) throws SQLException{
-        statement = connection.prepareStatement("INSERT INTO Workers(Department_number, Full_name , Position , Adress , Phone_number , Salary ) VALUES (?,?,?,?,?,?);");
+        statement = connection.prepareStatement("INSERT INTO Workers(Department_number, Full_name , Position , Adress , Phone_number , Salary, Password ) VALUES (?,?,?,?,?,?,?);");
         statement.setObject(1,workers.getDepartmentNumber());
         statement.setObject(2,workers.getFullName());
         statement.setObject(3,workers.getPosition());
         statement.setObject(4,workers.getAddress());
         statement.setObject(5, workers.getPhoneNumber());
         statement.setObject(6,workers.getSalary());
+        statement.setObject(7,workers.getPassword());
         statement.execute();
         statement.close();
     }
 
     public void createDetail(Detail detail) throws SQLException{
-        statement = connection.prepareStatement("INSERT INTO Details(Code_detail, Name_of_detail , Quantity) VALUES (?,?,?);");
+        statement = connection.prepareStatement("INSERT INTO Details(Code_detail, Name_of_detail , Quantity, Department_number ) VALUES (?,?,?,?);");
         statement.setObject(1,detail.getCode());
         statement.setObject(2,detail.getTitle());
         statement.setObject(3,detail.getQuantity());
+        statement.setObject(4,detail.getDepartmentNumberForDetail());
+        statement.execute();
+        statement.close();
+    }
+    public void createAccoplishment( int idWorker, String workWithDetails, String checkOfCompleteWork  , int codeDetail) throws  SQLException{
+        statement = connection.prepareStatement("INSERT INTO Accomplishment( ID_worker ,Work_with_details, Check_of_complete_work,Code_detail) VALUES (?,?,?,?);");
+        statement.setObject(1,idWorker);
+        statement.setObject(2,workWithDetails);
+        statement.setObject(3,checkOfCompleteWork);
+        statement.setObject(4,codeDetail);
         statement.execute();
         statement.close();
     }
@@ -151,33 +167,38 @@ public abstract class SqliteHelper {
         statement.setObject(1,code);
         statement.executeUpdate();
     }
-    public ArrayList<ReportAboutWorks> getReportList(){
+    public ArrayList<ReportAboutWorks> getReportList(int departmentNumber){
         ArrayList<ReportAboutWorks> ReportList = new ArrayList<>();
         try{
-            statement = connection.prepareStatement("SELECT * FROM Work_in_select_department ");
+            statement = connection.prepareStatement("SELECT * FROM Work_in_select_department where Department_number = ? ");
+            statement.setObject(1,departmentNumber);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 ReportList.add(new ReportAboutWorks (resultSet.getInt("ID_work"),
+                        resultSet.getInt("ID_worker"),
+                        resultSet.getInt("Code_detail"),
                         resultSet.getString("Full_name"),
                         resultSet.getInt("Department_number"),
                         resultSet.getString("Position"),
                         resultSet.getString("Name_of_detail"),
                         resultSet.getString("Work_with_details"),
                         resultSet.getInt("Quantity"),
-                        resultSet.getDate("Date")
+                        resultSet.getString("Check_of_complete_work")
                 ));
             }
+
         }catch (Exception e){
             System.out.println(e.getMessage());
+
         }
 
         return ReportList;
     }
-    public ArrayList<Detail>  getDetailsList(){
+    public ArrayList<Detail>  getDetailsList(int departmentNumber){
         ArrayList<Detail> allDetailsList = new ArrayList<>();
         try{
-            statement = connection.prepareStatement("SELECT * FROM Details ");
-            //statement.setObject(4,number);
+            statement = connection.prepareStatement("SELECT * FROM Details where Department_number = ?");
+            statement.setObject(1,departmentNumber);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 allDetailsList.add(new Detail (resultSet.getInt("Code_detail"),
@@ -194,19 +215,23 @@ public abstract class SqliteHelper {
         return allDetailsList;
     }
 
-    public ArrayList<Workers>  getWorketsList(){
+    public ArrayList<Workers>  getWorketsList(int departmentNumber ){
         ArrayList<Workers> allWorkersList = new ArrayList<>();
         try{
-            statement = connection.prepareStatement("SELECT * FROM Workers  ");
-           // statement.setObject(1,number);
+            statement = connection.prepareStatement("SELECT * FROM Workers where Department_number = ?  ");
+            statement.setObject(1,departmentNumber);
+
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                allWorkersList.add(new Workers (resultSet.getInt("Department_number"),
+                allWorkersList.add(new Workers (
+                        resultSet.getInt("ID_worker"),
+                        resultSet.getInt("Department_number"),
                         resultSet.getString("Full_name"),
                         resultSet.getString("Position"),
                         resultSet.getString("Adress"),
                         resultSet.getString("Phone_number"),
-                        resultSet.getInt("Salary")
+                        resultSet.getInt("Salary"),
+                        resultSet.getString("Password")
                 ));
 
             }
@@ -217,6 +242,33 @@ public abstract class SqliteHelper {
         return allWorkersList;
     }
 
+    public Workers getAuthentacationWorker(int id) {
+        Workers workers = null;
+        try {
+            openDB();
+            statement = connection.prepareStatement("select *from Workers where ID_worker = ? ");
+            statement.setObject(1, id);
+            resultSet = statement.executeQuery();
+            workers = new Workers(
+                    resultSet.getInt("ID_worker"),
+                    resultSet.getInt("Department_number"),
+                    resultSet.getString("Full_name"),
+                    resultSet.getString("Position"),
+                    resultSet.getString("Adress"),
+                    resultSet.getString("Phone_number"),
+                    resultSet.getInt("Salary"),
+                    resultSet.getString("Password")
+            );
+            closeDB();
 
-
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return workers;
+    }
 }
+
+
+
+
+

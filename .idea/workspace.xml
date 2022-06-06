@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d311b782-501d-49e1-84a8-06052d8032f6" name="Changes" comment="попытка прикрутить бд">
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/DataBase/DB.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/DataBase/SqliteHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/ReportTableModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/AddWorkInputWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/ReportAboutWorks.java" afterDir="false" />
+    <list default="true" id="d311b782-501d-49e1-84a8-06052d8032f6" name="Changes" comment="бд крикручена, добавление представления отчётности">
+      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Security/Encryption.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/AuthentacationWindow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/UpdateDetailWindow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/UpdateWorkWindow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/UpdateWorkerWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/BD.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/DataBase/SqliteHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/DataBase/SqliteHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/DetailTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/DetailTableModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/ReportTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/ReportTableModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/WorkerTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/WorkerTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/DetailInputWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/DetailInputWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/AddWorkInputWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/AddWorkInputWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/View.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/WorkerInputWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/WorkerInputWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Company.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Detail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Detail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/ReportAboutWorks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/ReportAboutWorks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Workers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Workers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/utility/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/utility/Constant.java" afterDir="false" />
     </list>
@@ -45,16 +47,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Home/Desktop/ISTb-20-1_Popovich",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Home/IdeaProjects/Cursovaia&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ApplicaionForWorkers.Main" />
@@ -147,7 +144,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653619688098</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="бд крикручена, добавление представления отчётности">
+      <created>1654047399019</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1654047399019</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -171,13 +175,23 @@
     <MESSAGE value="Сделал обработчик нажатия на кнопку окна добавления работника" />
     <MESSAGE value="доработал controller" />
     <MESSAGE value="попытка прикрутить бд" />
-    <option name="LAST_COMMIT_MESSAGE" value="попытка прикрутить бд" />
+    <MESSAGE value="бд крикручена, добавление представления отчётности" />
+    <option name="LAST_COMMIT_MESSAGE" value="бд крикручена, добавление представления отчётности" />
   </component>
   <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="javax.swing.event.EventListenerList" memberName="listenerList" />
+        <PinnedItemInfo parentTag="ApplicaionForWorkers.Model.Company" memberName="workersList" />
+      </pinned-members>
+    </pin-to-top-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="company" language="JAVA" />
         <watch expression="allDetailsList" />
+        <watch expression="((EventListenerList)((ReportTableModel)((Controller)this.this$0).reportTableModel).listenerList).listenerList" custom="java.awt.event.ActionListener,ApplicaionForWorkers.GUI.Controller,javax.swing.event.EventListenerList,ApplicaionForWorkers.GUI.TableModel.ReportTableModel" />
+        <watch expression="allDetailsList" />
+        <watch expression="((java.util.ArrayList)((Company)this).AllDetailsList).get(0)" custom="ApplicaionForWorkers.Model.Company,java.util.ArrayList" />
       </configuration>
     </watches-manager>
   </component>

@@ -34,7 +34,7 @@ public class DetailTableModel extends AbstractTableModel {
                 return  d.getTitle();
 
             case 2:
-                return  Integer.toString(d.getDepartmentNumber());
+                return  Integer.toString(d.getDepartmentNumberForDetail());
 
             case 3:
                 return  Integer.toString(d.getQuantity());
@@ -43,6 +43,33 @@ public class DetailTableModel extends AbstractTableModel {
         }
         return null;
     }
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        switch (columnIndex)
+        {
+            case 0:try {
+                company.getDetail(rowIndex).setCode(Integer.parseInt((String) aValue));
+            } catch (NumberFormatException e){}
+                break;
+            case 1:
+                company.getDetail(rowIndex).setTitle((String) aValue);
+                break;
+            case 2:
+                try{
+                    company.getDetail(rowIndex).setDepartmentNumberForDetail(Integer.parseInt((String) aValue));
+                }
+                catch (NumberFormatException e){}
+                break;
+            case 3:
+                try {
+                    company.getDetail(rowIndex).setQuantity(Integer.parseInt((String) aValue));
+                }catch (NumberFormatException e){}
+                break;
+        }
+        fireTableCellUpdated(rowIndex,columnIndex);
+
+    }
+
 
     public String getColumnName(int column){
         switch (column){
@@ -52,5 +79,9 @@ public class DetailTableModel extends AbstractTableModel {
             case 3: return "Количество";
         }
         return "";
+    }
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return true;
     }
 }

@@ -6,13 +6,17 @@ public class Company {
     private ArrayList<Detail> AllDetailsList = new ArrayList<>();
     private ArrayList<Workers> workersList = new ArrayList<>();
     private ArrayList<ReportAboutWorks> reportList =new ArrayList<>();
+    private Workers workers;
+
+    private String position;
+    private int departmentNumber;
+
 
     public  void setWorkersList(ArrayList<Workers> list){
         workersList = list;
     };
     public void setDetailList(ArrayList<Detail> list){
         this.AllDetailsList = list;
-
     };
     public void setReportList(ArrayList<ReportAboutWorks> list){
         this.reportList = list;
@@ -26,6 +30,7 @@ public class Company {
     public int  getReportListSize(){
         return reportList.size();
     }
+    public ReportAboutWorks getReportAboutWorks(int index){return reportList.get(index); }
 
     public int getWorkersListSize(){
         return workersList.size();
@@ -37,8 +42,36 @@ public class Company {
 
 
     public Detail getDetail(int index){
-        System.out.println(this.AllDetailsList);
         return this.AllDetailsList.get(index);
+    }
+    public Workers getIdWorker(int id){
+        Workers workers = null;
+        for (int i = 0; i < workersList.size(); i++) {
+            if(workersList.get(i).getid() == id){
+                workers = workersList.get(i);
+            }
+        }
+        return workers;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public Workers getWorkers() {
+        return workers;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public int getDepartmentNumber() {
+        return departmentNumber;
+    }
+
+    public void setDepartmentNumber(int departmentNumber) {
+        this.departmentNumber = departmentNumber;
     }
 
     public ArrayList<Detail> getAllDetailsList(){
@@ -64,5 +97,6 @@ public class Company {
     public void deleteDetail(int index){
         this.AllDetailsList.remove(index);
     }
+    public  void  deleteWork (int index){this.reportList.remove(index);}
 
 }

@@ -1,7 +1,7 @@
 package ApplicaionForWorkers.GUI;
 
-import ApplicaionForWorkers.GUI.DataBase.DB;
-import ApplicaionForWorkers.GUI.Security.Encryption;
+import ApplicaionForWorkers.utility.DataBase.DB;
+import ApplicaionForWorkers.utility.Security.Encryption;
 import ApplicaionForWorkers.GUI.TableModel.DetailTableModel;
 import ApplicaionForWorkers.GUI.TableModel.ReportTableModel;
 import ApplicaionForWorkers.GUI.TableModel.WorkerTableModel;
@@ -22,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.security.Security;
 
 
 public class Controller {
@@ -92,19 +91,43 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    int row = view.getTable().getSelectedRow();
+                    if(row == -1) {
+                        throw new Exception("Строка не выбрана");
+                    }
 
                     if (selectFlag == 2) {
-                        executeUpdateDetailWindow(new UpdateDetailWindow(), view);
+                        executeUpdateDetailWindow(new UpdateDetailWindow(), row);
                     } else if (selectFlag == 3) {
-                        executeUpdateWorkerWindow(new UpdateWorkerWindow(), view);
+                        executeUpdateWorkerWindow(new UpdateWorkerWindow(), row);
                     } else if (selectFlag == 1) {
-                        executeUpdateWorkWindow(new UpdateWorkWindow(), view);
+                        executeUpdateWorkWindow(new UpdateWorkWindow(), row);
                     }
                 }catch (Exception ex){
                     JOptionPane.showMessageDialog(view,
                             ex.getMessage(),
                             "Предупреждение", JOptionPane.WARNING_MESSAGE );
                 }
+            }
+        });
+        view.getMenuUserManual().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(view,
+                        ("<html>"+  "Авторизация" + "<br>" +
+                                " "+"<br>"+
+                        "1. На окне авторизации в поля ввода (Логин) нужно вписать номер работника предприятия, а пароль обязан сообщить начальник отдела к которому работник привязан." +"<br>" +
+                                " "+"<br>"+
+                        "Взаимодействие с интерфейсом: удаление, редактирование, добавление записи. " +"<br>"+
+                                " "+"<br>"+
+                        "1. Для того чтобы удалить какую либо запись, нужно выделить курсором необходимую строку и нажать на кнопку (Удалить)." +"<br>"+
+                        "2. Чтобы отредактровать какую либо  запись, нужно выделить курсором необходимую строку и нажать на кнопку (Редактировать)."+"<br>"+
+                        "После нажатия на кнопку перед вами появится окно для редактирования. Изменения должны сопровождаться сохранением типа данных!!! "+"<br>"+
+                        "Как нужные изменения будут внесены, сохраните изменённую запись, нажав на кнопку (Внести изменения)."+"<br>"+
+                        "3. Добавление записи в заданную таблицу производится с помощью нажатия кнопки (Добавить). При добавлении данных в поля, следует учитывать значения, которые вы вносите."+"<br>"+
+                        "В поле ввода номера телефона работника данные необходимо вводить через символы (+7)."+"<br>"+
+                                "</html>"),
+                        "Руководство пользователя", JOptionPane.INFORMATION_MESSAGE );
             }
         });
 
@@ -262,7 +285,7 @@ public class Controller {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
@@ -271,7 +294,7 @@ public class Controller {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
@@ -280,11 +303,12 @@ public class Controller {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
         });
+
         window.getAddButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -320,11 +344,8 @@ public class Controller {
             }
         });
     }
-    public void executeUpdateDetailWindow(UpdateDetailWindow window,View view) throws Exception {
-        int row = view.getTable().getSelectedRow();
-        if(row == -1) {
-            throw new Exception("Строка не выбрана");
-        }
+    public void executeUpdateDetailWindow(UpdateDetailWindow window, int row) throws Exception {
+
         window.getCodeField().setText(Integer.toString(company.getDetail(row).getCode()));
         window.getTitleField().setText(company.getDetail(row).getTitle());
         window.getDepartmentField().setText(Integer.toString(company.getDetail(row).getDepartmentNumberForDetail()));
@@ -334,7 +355,7 @@ public class Controller {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
@@ -343,7 +364,7 @@ public class Controller {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
@@ -352,7 +373,7 @@ public class Controller {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
@@ -397,11 +418,8 @@ public class Controller {
         });
     }
 
-    public void executeUpdateWorkWindow(UpdateWorkWindow window,View view) throws Exception {
-        int row = view.getTable().getSelectedRow();
-        if(row == -1) {
-            throw new Exception("Строка не выбрана");
-        }
+    public void executeUpdateWorkWindow(UpdateWorkWindow window,int row) throws Exception {
+
         String a[] = company.getPosition().split(" ");
         for(int i = 0; i<a.length; i++) {
             if (a[i].equalsIgnoreCase("Начальник")) {
@@ -420,6 +438,44 @@ public class Controller {
         window.getCodeDetailField().setText(Integer.toString(codeDetail));
         window.getWorkWithDetailField().setText(company.getReportAboutWorks(row).getWorkWithDetails());
         window.getCompleteCheckField().setText(company.getReportAboutWorks(row).getCheckOfCompleteWork());
+
+        window.getIdWorkerField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        window.getCodeDetailField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+        window.getWorkWithDetailField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
+                    e.consume();
+                }
+            }
+        });
+        window.getCompleteCheckField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
+                    e.consume();
+                }
+            }
+        });
+
         window.getAddButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -454,11 +510,8 @@ public class Controller {
             }
         });
     }
-    public void executeUpdateWorkerWindow(UpdateWorkerWindow window,View view) throws Exception {
-        int row = view.getTable().getSelectedRow();
-        if(row == -1) {
-            throw new Exception("Строка не выбрана");
-        }
+    public void executeUpdateWorkerWindow(UpdateWorkerWindow window, int row) throws Exception {
+
         String passwordOld = company.getWorker(row).getPassword();
         window.getDepartmentNumberField().setText(Integer.toString(company.getWorker(row).getDepartmentNumber()));
         window.getFullnameField().setText(company.getWorker(row).getFullName());
@@ -467,11 +520,11 @@ public class Controller {
         window.getPhoneNumberField().setText(company.getWorker(row).getPhoneNumber());
         window.getSalaryField().setText(Integer.toString(company.getWorker(row).getSalary()));
 
-        window.getPasswordField().addKeyListener(new KeyAdapter() {
+        window.getSalaryField().addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
@@ -490,11 +543,30 @@ public class Controller {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
         });
+        window.getFullnameField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
+                    e.consume();
+                }
+            }
+        });
+        window.getPositionField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
+                    e.consume();
+                }
+            }
+        });
+
 
         window.getAddButton().addActionListener(new ActionListener() {
             @Override
@@ -560,7 +632,7 @@ public class Controller {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
@@ -569,11 +641,30 @@ public class Controller {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
         });
+        window.getWorkWithDetailField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
+                    e.consume();
+                }
+            }
+        });
+        window.getCompleteCheckField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
+                    e.consume();
+                }
+            }
+        });
+
 
         window.getAddButton().addActionListener(new ActionListener() {
             @Override
@@ -613,6 +704,15 @@ public class Controller {
     }
 
     public void executeWorkerInputWindow(WorkerInputWindow window){
+        window.getSalaryField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
+                    e.consume();
+                }
+            }
+        });
 
         window.getPhoneNumberField().addKeyListener(new KeyAdapter() {
             @Override
@@ -623,24 +723,44 @@ public class Controller {
                 }
             }
         });
-        window.getPasswordField().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-                    e.consume();
-                }
-            }
-        });
         window.getDepartmentNumberField().addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
-                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) && (c != '+')) {
+                if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
                     e.consume();
                 }
             }
         });
+        window.getFullnameField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
+                    e.consume();
+                }
+            }
+        });
+        window.getPositionField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
+                    e.consume();
+                }
+            }
+        });
+        window.getPositionField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE) ) {
+                    e.consume();
+                }
+            }
+        });
+
+
 
         window.getDepartmentNumberField().setText(Integer.toString(company.getDepartmentNumber()));
 
@@ -760,7 +880,5 @@ public class Controller {
         }
         return checkFlag;
     }
-    public void setDataBase(DB db){
-        this.db = db;
-    }
+
 }

@@ -14,7 +14,7 @@ public class AuthentacationWindow extends JFrame {
     public AuthentacationWindow(View view) {
         setTitle("Аутентификация");
         Font font = new Font("TimesRoman", Font.PLAIN, 25);
-        loginLabel = new JLabel("ФИО");
+        loginLabel = new JLabel("Логин");
         passwordLabel = new JLabel("Пароль");
         authenticationButton = new JButton("Войти");
         authenticationButton.setFont(font);

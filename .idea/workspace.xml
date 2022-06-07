@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d311b782-501d-49e1-84a8-06052d8032f6" name="Changes" comment="бд крикручена, добавление представления отчётности">
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Security/Encryption.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/AuthentacationWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/UpdateDetailWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/UpdateWorkWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/UpdateWorkerWindow.java" afterDir="false" />
+    <list default="true" id="d311b782-501d-49e1-84a8-06052d8032f6" name="Changes" comment="Сделал авторизацию  и добавил обработчики ошибок">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/DataBase/SqliteHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/DataBase/SqliteHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/DetailTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/DetailTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/ReportTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/ReportTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/WorkerTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/TableModel/WorkerTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/AddWorkInputWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/AddWorkInputWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/DataBase/DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/utility/DataBase/DB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/DataBase/SqliteHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/utility/DataBase/SqliteHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Security/Encryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/utility/Security/Encryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/AuthentacationWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/AuthentacationWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/View.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/WorkerInputWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/GUI/Window/WorkerInputWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Company.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Detail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Detail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/ReportAboutWorks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/ReportAboutWorks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Workers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/Model/Workers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ApplicaionForWorkers/utility/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ApplicaionForWorkers/utility/Constant.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +140,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654047399019</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Сделал авторизацию  и добавил обработчики ошибок">
+      <created>1654532090859</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1654532090859</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -176,7 +172,8 @@
     <MESSAGE value="доработал controller" />
     <MESSAGE value="попытка прикрутить бд" />
     <MESSAGE value="бд крикручена, добавление представления отчётности" />
-    <option name="LAST_COMMIT_MESSAGE" value="бд крикручена, добавление представления отчётности" />
+    <MESSAGE value="Сделал авторизацию  и добавил обработчики ошибок" />
+    <option name="LAST_COMMIT_MESSAGE" value="Сделал авторизацию  и добавил обработчики ошибок" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

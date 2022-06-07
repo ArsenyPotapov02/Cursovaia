@@ -17,6 +17,8 @@ public class View extends JFrame {
     private JScrollPane scrollPane;
     private JMenuBar menuBar;
     private JMenu menuEdit;
+    private JMenu  reference;
+    private JMenuItem menuUserManual;
     private JMenu menuShowTables;
     private JMenuItem addWorker;
     private JMenuItem addProduct;
@@ -34,12 +36,15 @@ public class View extends JFrame {
     public  View(){
         menuBar = new JMenuBar();
         menuEdit = new JMenu("Добавление");
+        reference = new JMenu("Справка");
+        menuUserManual = new JMenuItem("Руководство пользователя");
         addProduct = new JMenuItem("Добавление детали");
         addWorker = new JMenuItem("Добавление работника");
 
         menuEdit.add(addProduct);
         menuEdit.add(addWorker);
         menuBar.add(menuEdit);
+
 
         menuShowTables = new JMenu("Список");
         listOfDetails = new JMenuItem("Детали");
@@ -51,6 +56,9 @@ public class View extends JFrame {
         menuShowTables.add(listOfTasks);
 
         menuBar.add(menuShowTables);
+
+        reference.add(menuUserManual);
+        menuBar.add(reference);
 
         setJMenuBar(menuBar);
         menuBar.add(Box.createHorizontalGlue());
@@ -77,6 +85,7 @@ public class View extends JFrame {
         scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
         setVisible(true);
+
         setPreferredSize(new Dimension(855,500));
         pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -92,6 +101,10 @@ public class View extends JFrame {
 
     public JButton getEditButton() {
         return editButton;
+    }
+
+    public JMenuItem getMenuUserManual() {
+        return menuUserManual;
     }
 
     public JButton getUpdateButton() {

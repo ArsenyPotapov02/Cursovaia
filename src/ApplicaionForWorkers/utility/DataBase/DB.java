@@ -1,4 +1,4 @@
-package ApplicaionForWorkers.GUI.DataBase;
+package ApplicaionForWorkers.utility.DataBase;
 
 import ApplicaionForWorkers.Model.Detail;
 import ApplicaionForWorkers.Model.ReportAboutWorks;

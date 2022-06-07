@@ -54,6 +54,7 @@ public class WorkerInputWindow extends JFrame {
         add(container);
         addButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         add(addButton);
+
         setVisible(true);
         pack();
     }

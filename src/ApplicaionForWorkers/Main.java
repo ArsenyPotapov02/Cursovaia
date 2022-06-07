@@ -1,13 +1,11 @@
 package ApplicaionForWorkers;
 
-import ApplicaionForWorkers.GUI.DataBase.DB;
+import ApplicaionForWorkers.utility.DataBase.DB;
 import ApplicaionForWorkers.GUI.Controller;
-import ApplicaionForWorkers.GUI.Security.Encryption;
+import ApplicaionForWorkers.utility.Security.Encryption;
 import ApplicaionForWorkers.GUI.Window.AuthentacationWindow;
-import ApplicaionForWorkers.GUI.Window.DetailInputWindow;
 import ApplicaionForWorkers.GUI.Window.View;
 import ApplicaionForWorkers.Model.Company;
-import ApplicaionForWorkers.Model.Detail;
 
 public class Main {
     public static void main(String[] args) {

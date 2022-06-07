@@ -1,4 +1,4 @@
-package ApplicaionForWorkers.GUI.Security;
+package ApplicaionForWorkers.utility.Security;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

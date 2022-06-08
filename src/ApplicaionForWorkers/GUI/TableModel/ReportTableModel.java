@@ -1,12 +1,12 @@
 package ApplicaionForWorkers.GUI.TableModel;
 
 import ApplicaionForWorkers.Model.Company;
-import ApplicaionForWorkers.Model.Detail;
+
 import ApplicaionForWorkers.Model.ReportAboutWorks;
 import ApplicaionForWorkers.utility.Constant;
 
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
+
 
 
 public class ReportTableModel extends AbstractTableModel {
@@ -100,10 +100,8 @@ public class ReportTableModel extends AbstractTableModel {
         }
         return "";
     }
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return true;
-    }
+
+
 
 
 }

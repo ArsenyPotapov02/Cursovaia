@@ -95,9 +95,6 @@ public class WorkerTableModel extends AbstractTableModel {
         }
         return "";
     }
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return true;
-    }
+
 
 }

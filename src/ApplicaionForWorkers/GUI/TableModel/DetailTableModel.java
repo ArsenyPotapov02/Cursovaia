@@ -80,8 +80,5 @@ public class DetailTableModel extends AbstractTableModel {
         }
         return "";
     }
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return true;
-    }
+
 }

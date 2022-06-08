@@ -97,8 +97,8 @@ public abstract class SqliteHelper {
         statement.close();
     }
 
-    public void updateAccomplishment(int iD_worker, String workWithDetails, String checkOfCompleteWork, int codeDetail, int id_work) throws SQLException{
-        statement = connection.prepareStatement("Update Accomplishment Set ID_worker = ?, Work_with_details = ?, Check_of_complete_work = ?, Code_detail = ? where ID_work = ?; ");
+    public void updateAccomplishment(int iD_worker, String workWithDetails, String checkOfCompleteWork, int codeDetail,  int id_work) throws SQLException{
+        statement = connection.prepareStatement("Update Accomplishment Set ID_worker = ?, Work_with_details = ?, Check_of_complete_work = ?, Code_detail = ?  where ID_work = ?; ");
         statement.setObject(1,iD_worker);
         statement.setObject(2,workWithDetails);
         statement.setObject(3,checkOfCompleteWork);

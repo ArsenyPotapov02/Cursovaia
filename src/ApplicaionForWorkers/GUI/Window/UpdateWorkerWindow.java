@@ -18,8 +18,7 @@ public class UpdateWorkerWindow extends JFrame {
     private  JTextField departmentNumberField;
     private  JTextField addressField;
     private  JTextField phoneNumberField;
-    private JFormattedTextField phoneNumberFormattedTextField;
-    private MaskFormatter phoneFormatter;
+
     private JTextField salaryField;
     private JTextField passwordField;
     private JButton addButton;
@@ -37,10 +36,7 @@ public class UpdateWorkerWindow extends JFrame {
         phoneNumberField = new JTextField();
         salaryField = new JTextField();
         passwordField = new JTextField();
-//        phoneFormatter = new MaskFormatter("+###########");
-//        phoneFormatter.setPlaceholderCharacter('0');
-//        phoneNumberFormattedTextField = new JFormattedTextField(phoneFormatter);
-//        phoneNumberFormattedTextField.setColumns(12);
+
         addButton = new JButton("Внести изменения");
         headLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         add(headLabel);

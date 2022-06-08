@@ -1,8 +1,9 @@
 package ApplicaionForWorkers.GUI.Window;
 
+import ApplicaionForWorkers.GUI.TableModel.ReportTableModel;
+
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
+
+import javax.swing.table.TableCellRenderer;
 
 public class View extends JFrame {
 
@@ -79,9 +83,32 @@ public class View extends JFrame {
         topPanel.add(searchLabel);
         add(topPanel, BorderLayout.NORTH);
 
-        table = new JTable();
+        table = new JTable(){
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                if(!isRowSelected(row) ){
+                if ( getModel()instanceof ReportTableModel) {
+                    if (table.getColumnCount() >= 0) {
+                        String type = (String)getModel().getValueAt(row, 6);
+                        if (type.equalsIgnoreCase("+" )) {
+                            c.setBackground(new Color(146, 234, 106));
+                        } else if (type.equalsIgnoreCase("-")) {
+                            c.setBackground(new Color(0xE56778));
+                        }
+                    }
+                }else {c.setBackground( Color.white);}
+                }
+
+                return c;
+            }
+
+
+
+        };
         table.setEnabled(true);
-        table.isCellEditable(1,-1);
+
         scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
         setVisible(true);
@@ -98,6 +125,7 @@ public class View extends JFrame {
     public JButton getDelButton() {
         return delButton;
     }
+
 
     public JButton getEditButton() {
         return editButton;
